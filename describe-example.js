@@ -45,6 +45,17 @@ testSuite('True Or False? ', () => {
       assert.equal(![], true);
     });
 
+    test('should test ![] === true async', (done) => {
+      setTimeout(() => {
+        try {
+          assert.equal(![], true);
+          done(); // success case
+        } catch (err) {
+          done(err); // error case
+        }
+      }, 10000);
+    });
+
     test('!NaN === true', () => {
       assert.equal(!NaN, true);
     });

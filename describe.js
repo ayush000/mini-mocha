@@ -29,12 +29,18 @@ const execTestSuite = (title, testSuiteFn) => {
 
 const reportTests = (fn, title) => {
   const desc = indentedTitle(title);
-
-  try {
-    fn.call(ctx);
-    success(desc);
-  } catch (e) {
-    failure(desc, e.message);
+  if (fn.length) {
+    fn.call(ctx, (e) => {
+      if (e) return failure(desc, e.message);
+      success(desc);
+    })
+  } else {
+    try {
+      fn.call(ctx);
+      success(desc);
+    } catch (e) {
+      failure(desc, e.message);
+    }
   }
 };
 
